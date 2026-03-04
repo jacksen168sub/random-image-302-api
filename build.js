@@ -69,8 +69,20 @@ export default {
         // 随机选择一个URL
         const randomUrl = urls[Math.floor(Math.random() * urls.length)];
 
+        // 处理 suffix 参数（用于图片压缩参数如 @320w_200h / @1200w_800h / 320x200）
+        let finalUrl = randomUrl;
+        const suffix = url.searchParams.get('suffix');
+        if (suffix) {
+            // 安全校验：只允许数字、下划线、@、x、w、h 等常见图片压缩参数字符
+            // 格式示例: @320w_200h, @1200w_800h, 320x200
+            const safeSuffixPattern = /^[\d@_xwh]+$/;
+            if (safeSuffixPattern.test(suffix)) {
+                finalUrl = randomUrl + suffix;
+            }
+        }
+
         // 302重定向
-        return Response.redirect(randomUrl, 302);
+        return Response.redirect(finalUrl, 302);
     }
 };
 `;

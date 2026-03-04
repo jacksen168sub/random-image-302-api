@@ -56,6 +56,16 @@ if (!preg_match('/^https?:\/\//i', $randomUrl)) {
     exit('Invalid URL format');
 }
 
+// 处理 suffix 参数（用于图片压缩参数如 @320w_200h / @1200w_800h / 320x200）
+$finalUrl = $randomUrl;
+if (isset($_GET['suffix']) && $_GET['suffix'] !== '') {
+    $suffix = $_GET['suffix'];
+    // 安全校验：只允许数字、下划线、@、x、w、h 等常见图片压缩参数字符
+    if (preg_match('/^[\d@_xwh]+$/', $suffix)) {
+        $finalUrl = $randomUrl . $suffix;
+    }
+}
+
 // 302重定向
-header('Location: ' . $randomUrl, true, 302);
+header('Location: ' . $finalUrl, true, 302);
 exit;
