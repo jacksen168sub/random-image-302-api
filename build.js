@@ -75,7 +75,7 @@ export default {
         if (suffix) {
             // 安全校验：只允许数字、下划线、@、x、w、h 等常见图片压缩参数字符
             // 格式示例: @320w_200h, @1200w_800h, 320x200
-            const safeSuffixPattern = /^[\d@_xwh]+$/;
+            const safeSuffixPattern = /^[\\d@_xwh]+$/;
             if (safeSuffixPattern.test(suffix)) {
                 finalUrl = randomUrl + suffix;
             }
