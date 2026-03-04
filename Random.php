@@ -5,8 +5,13 @@
 // 定义允许的类型（白名单）
 const ALLOWED_TYPES = ['landscape', 'portrait'];
 
-// 获取并验证type参数
+// 获取type参数，未指定则随机选择
 $type = $_GET['type'] ?? '';
+
+// 如果未指定type，随机选择一个
+if ($type === '') {
+    $type = ALLOWED_TYPES[array_rand(ALLOWED_TYPES)];
+}
 
 // 白名单验证 - 防止路径遍历攻击
 if (!in_array($type, ALLOWED_TYPES, true)) {
